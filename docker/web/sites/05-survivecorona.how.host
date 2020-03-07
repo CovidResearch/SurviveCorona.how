@@ -1,0 +1,48 @@
+
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name survivecorona.how www.survivecorona.how;
+  access_log off;
+  error_log off;
+
+  return 301 https://www.survivecorona.how$request_uri;
+}
+
+server {
+    server_name survivecorona.how;
+
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/survivecorona.how/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/survivecorona.how/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    return 301 https://www.survivecorona.how$request_uri;
+}
+
+server {
+
+  server_name www.survivecorona.how;
+  root /var/www/survivecorona.how/public;
+  index index.html index.php;
+
+    listen [::]:443 http2; # managed by Certbot
+    listen 443 ssl http2; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.survivecorona.how/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.survivecorona.how/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    include /etc/nginx/reverse_proxy.conf;
+
+  charset utf-8;
+
+    location / {
+        include /etc/nginx/reverse_proxy-location.conf;
+        proxy_pass http://172.28.1.2/;
+        #proxy_pass http://127.0.0.1:8001/;
+    }
+}
