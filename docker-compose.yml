@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    image: phpexperts/web:nginx-php7.4-debug
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom:delegated
+    ports:
+      - 80:80
+
+  db:
+    image: mariadb:10.4
+    volumes:
+      - /var/lib/docker/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: survivecorona
+
+  redis:
+    image: redis:3.2.6
+    entrypoint:
+      - redis-server
+      - --requirepass {REDIS_PASSWORD}
+      - --loglevel notice

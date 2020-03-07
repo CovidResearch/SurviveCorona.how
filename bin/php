@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+if [ -z "$PROJECT_NAME" ]; then
+    PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]]//g")
+fi
+if [ -z "$NETWORK_NAME" ]; then
+    NETWORK_NAME=${PROJECT_NAME}_default
+fi
+
+docker run -u=$UID -v /etc/passwd:/etc/passwd:ro -v ~/.ssh:/home/${USER}/.ssh -v ~/.cache/composer:/home/${USER}/.composer/cache -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $(pwd):/workdir --rm --entrypoint=/usr/bin/php phpexperts/php:7.4 "$@"
