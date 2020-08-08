@@ -49,26 +49,37 @@
 		</div><!-- .post-thumbnail -->
 	<?php endif; ?>
 
-	<div class="entry-content">
-		<?php
-		the_content(
-			sprintf(
-				/* translators: %s: Post title. */
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
-				get_the_title()
-			)
-		);
+<div class="entry-content">
+<?php
+if ( is_single() ) :
+/* translators: %s: Name of current post */
+the_content( sprintf(
+__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
+get_the_title()
+) );
 
-		wp_link_pages(
-			array(
-				'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
-				'after'       => '</div>',
-				'link_before' => '<span class="page-number">',
-				'link_after'  => '</span>',
-			)
-		);
-		?>
-	</div><!-- .entry-content -->
+wp_link_pages( array(
+'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
+'after'       => '</div>',
+'link_before' => '<span class="page-number">',
+'link_after'  => '</span>',
+) );
+else :
+
+the_excerpt( sprintf(
+__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
+get_the_title()
+) );
+
+wp_link_pages( array(
+'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
+'after'       => '</div>',
+'link_before' => '<span class="page-number">',
+'link_after'  => '</span>',
+) );
+endif;
+?>
+</div><!-- .entry-content -->
 
 	<?php
 	if ( is_single() ) {

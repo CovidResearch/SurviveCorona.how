@@ -1,0 +1,8 @@
+#customize-control-hide_categories label {
+	display: block;
+	padding: 6px 24px;
+}
+
+#hide_categories {
+	margin-left: 10px;
+}

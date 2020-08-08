@@ -17,6 +17,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/web:/etc/nginx/custom
+      - /etc/group:/etc/group
 
 networks:
   default:
