@@ -10,3 +10,5 @@
 /benchmarks     export-ignore
 /phpbench.js    export-ignore
 
+# Wordpress uses CRLF for some reason. Force LF.
+*.txt   text eol=lf
