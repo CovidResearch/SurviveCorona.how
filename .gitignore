@@ -6,4 +6,5 @@ composer.lock
 /vendor
 /.idea
 wp-config.php
-
+/live/.htpasswd
+/live/images
