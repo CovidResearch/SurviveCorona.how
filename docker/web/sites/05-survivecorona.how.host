@@ -61,6 +61,21 @@ server {
   location ~ /\.(?!well-known).* {
       deny all;
   }
+
+  location ~ \.php$ {
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+    if (!-f $document_root$fastcgi_script_name) {
+      return 404;
+    }
+
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param PATH_INFO       $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+
+    fastcgi_pass   localhost:9000;
+    fastcgi_index  index.php;
+  }
 }
 
 server {
@@ -112,6 +127,9 @@ server {
   }
 
   location / {
+    auth_basic "Admin Area";
+    auth_basic_user_file "/var/www/survivecorona.how/live/.htpasswd";
+
     try_files $uri $uri/ /index.php?$query_string;
   }
 
