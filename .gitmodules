@@ -1,0 +1,3 @@
+[submodule "live/wp-content/plugins/simply-static"]
+	path = public/wp-content/plugins/simply-static
+    url = https://github.com/grrr-amsterdam/simply-static.git
