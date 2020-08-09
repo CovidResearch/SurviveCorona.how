@@ -112,9 +112,6 @@ server {
   }
 
   location / {
-    auth_basic "Admin Area";
-    auth_basic_user_file "/var/www/survivecorona.how/live/.htpasswd";
-
     try_files $uri $uri/ /index.php?$query_string;
   }
 
